@@ -1,0 +1,11 @@
+E:\source codes\MyShop\MyShop\bin\Release\MyShop.auto.dll
+E:\source codes\MyShop\MyShop\bin\Release\MyShop.auto.pdb
+E:\source codes\MyShop\MyShop\bin\Release\InfinityScript.dll
+E:\source codes\MyShop\MyShop\obj\Release\MyShop.auto.dll
+E:\source codes\MyShop\MyShop\obj\Release\MyShop.auto.pdb
+E:\source codes\MyShop\MyShop\obj\Release\MyShop.csprojResolveAssemblyReference.cache
+C:\Users\MaMaD\Desktop\Myshop\MyShop\bin\Release\MyShop.auto.dll
+C:\Users\MaMaD\Desktop\Myshop\MyShop\bin\Release\MyShop.auto.pdb
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Release\MyShop.csprojResolveAssemblyReference.cache
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Release\MyShop.auto.dll
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Release\MyShop.auto.pdb

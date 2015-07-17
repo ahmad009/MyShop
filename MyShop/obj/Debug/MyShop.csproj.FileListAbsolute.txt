@@ -1,0 +1,18 @@
+C:\Users\MaMaD\Desktop\Myshop\MyShop\bin\Debug\MyShop.auto.dll
+C:\Users\MaMaD\Desktop\Myshop\MyShop\bin\Debug\MyShop.auto.pdb
+C:\Users\MaMaD\Desktop\Myshop\MyShop\bin\Debug\InfinityScript.dll
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Debug\MyShop.csprojResolveAssemblyReference.cache
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Debug\MyShop.auto.dll
+C:\Users\MaMaD\Desktop\Myshop\MyShop\obj\Debug\MyShop.auto.pdb
+D:\Game\Source Codes\Myshop\MyShop\bin\Debug\MyShop.auto.dll
+D:\Game\Source Codes\Myshop\MyShop\bin\Debug\MyShop.auto.pdb
+D:\Game\Source Codes\Myshop\MyShop\bin\Debug\InfinityScript.dll
+D:\Game\Source Codes\Myshop\MyShop\obj\Debug\MyShop.csprojResolveAssemblyReference.cache
+D:\Game\Source Codes\Myshop\MyShop\obj\Debug\MyShop.auto.dll
+D:\Game\Source Codes\Myshop\MyShop\obj\Debug\MyShop.auto.pdb
+C:\Users\Ahmad\Desktop\Myshop\MyShop\bin\Debug\MyShop.auto.dll
+C:\Users\Ahmad\Desktop\Myshop\MyShop\bin\Debug\MyShop.auto.pdb
+C:\Users\Ahmad\Desktop\Myshop\MyShop\bin\Debug\InfinityScript.dll
+C:\Users\Ahmad\Desktop\Myshop\MyShop\obj\Debug\MyShop.csprojResolveAssemblyReference.cache
+C:\Users\Ahmad\Desktop\Myshop\MyShop\obj\Debug\MyShop.auto.dll
+C:\Users\Ahmad\Desktop\Myshop\MyShop\obj\Debug\MyShop.auto.pdb
