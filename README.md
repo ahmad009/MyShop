@@ -26,5 +26,4 @@ make a file called CustomNames.cfg in "scripts\MyShop\"
 and place your admins and master admins names like this:
 
 Ahmad009=^5Ahmad^6009
-Sa3id=^:Sa^63^:id
 =============================================================================
