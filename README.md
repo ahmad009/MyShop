@@ -9,11 +9,13 @@ like : "scripts\MyShop\Config.cfg"
 then open it with notepad and add this 2 lines:
 
 Admins=
+
 MasterAdmins=
 
 then add your admins and master admins xuid's :
 
 Admins=Admin1XUID,Admin2XUID,...
+
 MasterAdmins=MasterAdmin1XUID,MasterAdmin2XUID,...
 
 =============================================================================
@@ -26,4 +28,5 @@ make a file called CustomNames.cfg in "scripts\MyShop\"
 and place your admins and master admins names like this:
 
 Ahmad009=^5Ahmad^6009
+.
 =============================================================================
