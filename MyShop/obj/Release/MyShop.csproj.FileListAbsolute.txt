@@ -1,0 +1,6 @@
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\bin\Release\MyShop.dll
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\bin\Release\MyShop.pdb
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\bin\Release\InfinityScript.dll
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\obj\Release\MyShop.dll
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\obj\Release\MyShop.pdb
+C:\Users\Ahmad\Documents\GitHub\MyShop\MyShop\obj\Release\MyShop.csprojResolveAssemblyReference.cache

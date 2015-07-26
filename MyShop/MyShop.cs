@@ -24,6 +24,68 @@ namespace MyShop
         public MyShop()
             : base()
         {
+            //check Log and Config files
+            string file = "";
+            StreamWriter writer;
+            try
+            {
+                if (!File.Exists("scripts\\MyShop\\reports.txt"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop");
+                    file = "scripts\\MyShop\\reports.txt";
+                    writer = new StreamWriter(file);
+                    writer.Write("");
+                    writer.Close();
+                }
+                
+                if (!File.Exists("scripts\\MyShop\\ConnectedPlayers\\ConnectedPlayers.txt"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop\\ConnectedPlayers");
+                    file = "scripts\\MyShop\\ConnectedPlayers\\ConnectedPlayers.txt";
+                    writer = new StreamWriter(file);
+                    writer.Write("");
+                    writer.Close();
+                }
+
+                if (!File.Exists("scripts\\MyShop\\Kills\\Kills.txt"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop\\Kills");
+                    file = "scripts\\MyShop\\Kills\\Kills.txt";
+                    writer = new StreamWriter(file);
+                    writer.Write("");
+                    writer.Close();
+                }
+
+                if (!File.Exists("scripts\\MyShop\\PointTransfers\\Transfers.txt"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop\\PointTransfers");
+                    file = "scripts\\MyShop\\PointTransfers\\Transfers.txt";
+                    writer = new StreamWriter(file);
+                    writer.Write("");
+                    writer.Close();
+                }
+
+                if (!File.Exists("scripts\\MyShop\\Config.cfg"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop");
+                    file = "scripts\\MyShop\\Config.cfg";
+                    writer = new StreamWriter(file);
+                    writer.WriteLine("Admins=");
+                    writer.WriteLine("MasterAdmins=");
+                    writer.Close();
+                }
+
+                if (!File.Exists("scripts\\MyShop\\CustomNames.cfg"))
+                {
+                    Directory.CreateDirectory("scripts\\MyShop");
+                    file = "scripts\\MyShop\\CustomNames.cfg";
+                    writer = new StreamWriter(file);
+                    writer.Write("ahmad009=^:Ahmad009");
+                    writer.Close();
+                }
+            }
+            catch { }
+
             base.PlayerConnecting += new Action<Entity>(this.playerConnecting);
             base.PlayerDisconnected += (new Action<Entity>(this.playerDisconnected));
 

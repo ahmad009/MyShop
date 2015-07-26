@@ -30,3 +30,10 @@ and place your admins and master admins names like this:
 Ahmad009=^5Ahmad^6009
 
 =============================================================================
+# Logging
+You must Make Some files for logging:
+"scripts\MyShop\ConnectedPlayers\ConnectedPlayers.txt"     =>    "Connected Players"
+"scripts\MyShop\Kills\Kills.txt"                           =>    "Players Kills Stat"
+"scripts\MyShop\PointTransfers\Transfers.txt"              =>    "Points Transfers"
+
+=============================================================================
