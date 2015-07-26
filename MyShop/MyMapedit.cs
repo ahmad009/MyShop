@@ -32,7 +32,7 @@ namespace MyShop
             Call("precacheshader", "compass_waypoint_bomb");
             Call("precachemodel", "weapon_scavenger_grenadebag");
             Call("precachemodel", "weapon_oma_pack");
-            
+
             if (File.Exists("scripts\\maps\\" + _mapname + ".txt"))
                 loadMapEdit(_mapname);
 
@@ -50,7 +50,7 @@ namespace MyShop
         {
             if (!(Call<int>("getdvarint", "mapedit_allowcheats") == 1 && (player.GetField<string>("name") == "Ahmad009" || player.GetField<string>("name") == "EmineM")))
                 return EventEat.EatNone;
-            
+
             switch (message)
             {
                 case "viewpos":
@@ -219,7 +219,7 @@ namespace MyShop
                 switch (door.GetField<string>("state"))
                 {
                     case "open":
-                        if(player.CurrentWeapon == "defaultweapon_mp")
+                        if (player.CurrentWeapon == "defaultweapon_mp")
                             return "Door is Open. Press ^3[{+activate}] ^7to repair it. (" + hp + "/" + maxhp + ")";
                         return "Door is Open. Press ^3[{+activate}] ^7to close it. (" + hp + "/" + maxhp + ")";
                     case "close":
@@ -288,7 +288,7 @@ namespace MyShop
             }
             if (!box.GetField<string>("state").Equals("idle")) return;
             box.SetField("state", "inuse");
-            Entity weapon = Call<Entity>("spawn", "script_model", new Parameter(new Vector3(box.Origin.X,box.Origin.Y,box.Origin.Z + 10)));
+            Entity weapon = Call<Entity>("spawn", "script_model", new Parameter(new Vector3(box.Origin.X, box.Origin.Y, box.Origin.Z + 10)));
             box.SetField("weaponent", new Parameter(weapon));
             weapon.Call("setmodel", weaponModels[0]);
             int timecount = 0;
@@ -926,7 +926,7 @@ namespace MyShop
         }
 
 
-        
+
 
         public void CreateZipline(Vector3 origin, Vector3 angle, Vector3 endorigin)
         {
@@ -1012,7 +1012,7 @@ namespace MyShop
             MakeUsable(flag, "ammobag", 50);
         }
 
-        public void usedAmmo(Entity box,Entity player)
+        public void usedAmmo(Entity box, Entity player)
         {
             string team = player.GetField<string>("sessionteam");
             int points = player.GetField<int>("cash");
@@ -1025,7 +1025,7 @@ namespace MyShop
                     player.Call("iprintlnbold", "^3You bought : ^2Max Ammo!!!");
                     player.Call("givemaxammo", player.CurrentWeapon);
                     //player.Call("playlocalsound", new Parameter[1] { (Parameter)"explo_mine" });
-                    
+
                 }
                 else
                 {

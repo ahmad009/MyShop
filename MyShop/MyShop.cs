@@ -1,18 +1,4 @@
-﻿/*
-               (                      
- (  `          )\ )    )              
- )\))(   (    (()/( ( /(              
-((_)()\  )\ )  /(_)))\())  (   `  )   
-(_()((_)(()/( (_)) ((_)\   )\  /(/(   
-|  \/  | )(_))/ __|| |(_) ((_)((_)_\  
-| |\/| || || |\__ \| ' \ / _ \| '_ \) 
-|_|  |_| \_, ||___/|_||_|\___/| .__/  
-         |__/                 |_|     
-         Made By: Ahmad009
-         Updated By: EmineM :D 
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +29,13 @@ namespace MyShop
 
             createServerHud();
             OnNotify("game_ended", (Parameter level) => MyStats.AllPointsWriter());
+            OnNotify("game_ended", (Parameter level2) =>
+            {
+                foreach (Entity player in Players)
+                {
+                    MyStats.KillsWriter(player);
+                }
+            });
 
             /*OnInterval(60000, () =>
             {
@@ -71,7 +64,7 @@ namespace MyShop
 
                 MyStats.ConfigReader();
                 MyStats.CustomNameReader(ent);
-                
+
 
                 ent.SetPerk("specialty_blindeye", true, false);
                 ent.SetPerk("specialty_quieter", true, false);
@@ -223,32 +216,32 @@ namespace MyShop
                 AfterDelay(100, () =>
                 {
                     ent.Call("setmodel", "mp_body_ally_ghillie_" + Call<string>("getdvar", "env1") + "_sniper");
-                        ent.Call("setviewmodel", "viewhands_iw5_ghillie_" + Call<string>("getdvar", "env2"));
-                        ent.Call("giveweapon", "iw5_usp45_mp_tactical");
-                        ent.SwitchToWeaponImmediate("iw5_usp45_mp_tactical");
+                    ent.Call("setviewmodel", "viewhands_iw5_ghillie_" + Call<string>("getdvar", "env2"));
+                    ent.Call("giveweapon", "iw5_usp45_mp_tactical");
+                    ent.SwitchToWeaponImmediate("iw5_usp45_mp_tactical");
 
-                        ent.SetPerk("specialty_paint", true, true);
-                        ent.SetPerk("specialty_longersprint", true, true);
-                        ent.SetPerk("specialty_blindeye", true, false);
-                        ent.SetPerk("specialty_coldblooded", true, false);
-                        ent.SetPerk("specialty_quickdraw", true, false);
-                        ent.SetPerk("specialty_assists", true, false);
-                        ent.SetPerk("specialty_moredamage", true, false);
-                        ent.SetPerk("specialty_holdbreathwhileads", true, false);
-                        ent.SetPerk("specialty_marksman", true, false);
-                        ent.SetPerk("specialty_lightweight", true, true);
-                        ent.SetPerk("specialty_blastshield", true, false);
-                        ent.SetPerk("specialty_autospot", true, false);
-                        ent.SetPerk("specialty_bulletaccuracy", true, false);
-                        ent.SetPerk("specialty_stalker", true, true);
+                    ent.SetPerk("specialty_paint", true, true);
+                    ent.SetPerk("specialty_longersprint", true, true);
+                    ent.SetPerk("specialty_blindeye", true, false);
+                    ent.SetPerk("specialty_coldblooded", true, false);
+                    ent.SetPerk("specialty_quickdraw", true, false);
+                    ent.SetPerk("specialty_assists", true, false);
+                    ent.SetPerk("specialty_moredamage", true, false);
+                    ent.SetPerk("specialty_holdbreathwhileads", true, false);
+                    ent.SetPerk("specialty_marksman", true, false);
+                    ent.SetPerk("specialty_lightweight", true, true);
+                    ent.SetPerk("specialty_blastshield", true, false);
+                    ent.SetPerk("specialty_autospot", true, false);
+                    ent.SetPerk("specialty_bulletaccuracy", true, false);
+                    ent.SetPerk("specialty_stalker", true, true);
 
-                        /*if (ent.GetField<int>("ismaster") == 1)
-                        {
-                            doCustomWeapon(ent, "iw5_usp45", "rpg_mp");
-                            ((BaseScript)this).Call("playfx", (Parameter)((BaseScript)this).Call<int>("loadfx", new Parameter[1] { (Parameter)"props/cash_player_drop" }), (Parameter)ent.Call<Vector3>("gettagorigin", new Parameter[1] { (Parameter)"j_spine4" }));//explosions
-                            ent.Call("playsound", new Parameter[1] { (Parameter)"mp_killconfirm_tags_pickup" });
-                        }*/
-                        //doCustomWeapon(ent, "iw5_usp45", "rpg_mp");
+                    /*if (ent.GetField<int>("ismaster") == 1)
+                    {
+                        doCustomWeapon(ent, "iw5_usp45", "rpg_mp");
+                        ((BaseScript)this).Call("playfx", (Parameter)((BaseScript)this).Call<int>("loadfx", new Parameter[1] { (Parameter)"props/cash_player_drop" }), (Parameter)ent.Call<Vector3>("gettagorigin", new Parameter[1] { (Parameter)"j_spine4" }));//explosions
+                        ent.Call("playsound", new Parameter[1] { (Parameter)"mp_killconfirm_tags_pickup" });
+                    }*/
+                    //doCustomWeapon(ent, "iw5_usp45", "rpg_mp");
                 });
             }
 
@@ -431,7 +424,7 @@ namespace MyShop
             zmhud1.SetText("^3!Sui ^1= ^5Suicide          ^:(free)\n^3!hp ^1= ^5Double Health    ^:(1500)\n^3!esp ^1= ^5More Speed       ^:(500)\n^3!ttk ^1= ^5Teleporter tk    ^:(2000)\n^3!la  ^1= ^5Stinger          ^:(500)");
             zmhud2.SetText("^3!sx  ^1= ^5Semtex          ^:(6000)\n^3!wh  ^1= ^5Wallhack         ^:(500)\n^3!fg  ^1= ^5Flashbang        ^:(600)\n^3!sm  ^1= ^5Smoke            ^:(400)\n^3!cl  ^1= ^5Claymore        ^:(300)");
             zmhud3.SetText("^6Other:\n^5!gp  ^1= ^5give point   ^:!gp ^1[^3Part Of Player Name^1]\n^5!re  ^1= ^5Restart Map      ^:(50000)\n^5!report ^1[^3Message or Bug^1] ^1= ^5Report Message or Bug :D");
-            
+
             hmhud1.SetText("^3!1    ^1= ^5Random Pistol               ^:(150)\n^3!2    ^1= ^5Random Auto Pistol          ^:(200)\n^3!3    ^1= ^5Random SMG                  ^:(250)\n^3!4    ^1= ^5Random Assault              ^:(600)");
             hmhud2.SetText("^3!5    ^1= ^5Random Shotgun              ^:(600)\n^3!6    ^1= ^5Random Snipe                ^:(750)\n^3!7    ^1= ^5Random Light                ^:(850)\n^3!8    ^1= ^5Random Launcher             ^:(400)");
             hmhud3.SetText("^3!9    ^1= ^5Random Weapon               ^:(500)\n^3!aug  ^1= ^5aug weapon                  ^:(2500)\n^3!go   ^1= ^5Gold ACR + Unlimited Ammo   ^:(7000)\n^3!sui  ^1= ^5Suicide                     ^:(Free)");
@@ -512,10 +505,10 @@ namespace MyShop
             motd.SetPoint("CENTER", "BOTTOM", 0, -19);
             motd.Foreground = true;
             motd.HideWhenInMenu = true;
-            OnInterval(35000, () =>
+            OnInterval(50000, () =>
             {
-                motd.SetText("^3Server Is Created By ^5A^3h^5m^3a^5d^3009 ^0& ^2E^;m^2i^;n^2e^;M                                                       ^7More information: www.PlusMaster.Net");
-                //motd.SetText("^6Most Kills = ^5" + MyStats.playername + "^3 = ^1" + MyStats.max + "   ^5" + MyStats.playername1 + "^3 = ^1" + MyStats.max1 + "   ^5" + MyStats.playername2 + "^3 = ^1" + MyStats.max2);
+                //motd.SetText("^3Server Is Created By ^5A^3h^5m^3a^5d^3009 ^0& ^2E^;m^2i^;n^2e^;M                                                       ^7More information: www.PlusMaster.Net");
+                motd.SetText("^6Most Kills = ^5" + MyStats.playername + "^3 = ^1" + MyStats.max + "   ^5" + MyStats.playername1 + "^3 = ^1" + MyStats.max1 + "   ^5" + MyStats.playername2 + "^3 = ^1" + MyStats.max2);
                 motd.SetPoint("CENTER", "BOTTOM", 1100, -10);
                 motd.Call("moveovertime", 25);
                 motd.X = -700;
@@ -610,500 +603,76 @@ namespace MyShop
 
             //if (player.GetField<string>("sessionteam") == "allies")
             //{
-                //MyStats.MostkillsReader(player, player.GetField<int>("kills"));
+            //MyStats.MostkillsReader(player, player.GetField<int>("kills"));
             //}
         }
 
         public override BaseScript.EventEat OnSay3(Entity player, BaseScript.ChatType type, string name, ref string message)
         {
-            int points = player.GetField<int>("cash");//MyStats.PointsReader(player);
-
-            string guid = player.GUID.ToString();
-            string team = player.GetField<string>("sessionteam");
-            int price;
-
-            char[] chrArray = new char[] { ' ' };
-            string[] strArrays = message.Split(chrArray);
-
-
-            if (message.ToLower().StartsWith("!report"))
+            if (message.ToLower().StartsWith("!"))
             {
-                string[] strArray = message.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                
-                if ((int)strArray.Length <= 1)
+                int points = player.GetField<int>("cash");
+
+                string guid = player.GUID.ToString();
+                string team = player.GetField<string>("sessionteam");
+                int price;
+
+                string[] readArray = message.Split('!');
+                string cmd = readArray[1].ToString();
+
+                string[] strArrays = cmd.Split(' ');
+
+                if ((int)strArrays.Length > 1)
                 {
-                    this.TellClient(player, "^1Enter a text");
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                string text = "";
-                foreach (string strz in strArray)
-                {
-                    if (strz != "!report")
-                        text += strz + " ";
-                }
-
-                string NewReport = player.Name + "=" + text + Environment.NewLine;
-
-                try
-                {
-                    File.AppendAllText("scripts\\MyShop\\reports.txt", string.Concat(NewReport));
-                }
-                catch { }
-            }
-
-            if (strArrays[0].ToLower() == "!sui")
-            {
-                player.AfterDelay(200, entity =>
-                {
-                    player.Call("suicide");
-                });
-
-                return BaseScript.EventEat.EatGame;
-            }
-
-            if (strArrays[0].ToLower() == "!gp")
-            {
-                string[] strArray = message.Split(new char[] { ' ' });
-                string str = "";
-                if ((int)strArray.Length <= 1)
-                {
-                    this.TellClient(player, "^1Enter a playername");
-                    return EventEat.EatGame;
-                }
-
-                Entity entity = this.FindByName(strArray[1]);
-
-                if (entity == null)
-                {
-                    this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                    return EventEat.EatGame;
-                }
-
-                int gp = 0;
-
-                for (int i = 2; i < (int)strArray.Length; i++)
-                {
-                    str = string.Concat(str, " ", strArray[i]);
-                    gp = int.Parse(str);
-                }
-
-                int playerPoint = player.GetField<int>("cash");//MyStats.PointsReader(player);
-
-                if (gp >= 0)
-                {
-                    if (gp <= playerPoint)
+                    if (strArrays[0].ToLower().ToString() == "gp")
                     {
-
-                        player.Call("iprintlnbold", gp + "^1 Points sent to ^2" + entity.Name);
-                        entity.Call("iprintlnbold", "^2" + gp + " ^1Points recieved from ^2" + player.Name);
-                        MyStats.PointAdd(player, -gp);
-                        MyStats.PointAdd(entity, gp);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You dont have enough points. Your points = ^6" + playerPoint);
-                    }
-                }
-
-                File.AppendAllText("scripts\\MyShop\\PointTransfers\\Transfers.txt", string.Concat(DateTime.Now + "  ==>  " + gp + " points from " + player.Name + " to " + entity.Name + "\n"));
-
-                return EventEat.EatGame;
-            }
-
-            if (strArrays[0].ToLower() == "!re")
-            {
-                if (50000 <= points)
-                {
-                    MyStats.PointAdd(player, -50000);
-                    MyStats.AllPointsWriter();
-
-                    player.Call("iprintlnbold", "^1You bought : ^5Restart Map!");
-                    ServerSay("^2" + player.Name + " ^1Bought Restart Map.");
-                    AfterDelay(4000, () =>
-                    {
-                        Utilities.ExecuteCommand("fast_restart");
-                    });
-                    ShopFX(player);
-                }
-                else
-                {
-                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                }
-            }
-
-            
-
-
-
-
-
-            if (team == "axis")
-            {
-                if (strArrays[0].ToLower() == "!esp")
-                {
-                    if (500 <= points)
-                    {
-                        MyStats.PointAdd(player, -500);
-                        player.Call("iprintlnbold", "^1You bought : ^5More Speed!");
-                        player.SetField("movespeed", 1.7f);
-                        player.SetField("hasesp", 1);
-                        ShopFX(player);
-                        OnInterval(100, () =>
-                        {
-                            player.Call("setmovespeedscale", new Parameter(player.GetField<float>("movespeed")));
-                            return true;
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!ttk")
-                {
-                    if (2000 <= points)
-                    {
-                        MyStats.PointAdd(player, -2000);
-                        player.Call("iprintlnbold", "^1You bought : ^5Teleporter tk!");
-                        player.SetField("hasttk", 1);
-                        player.Call("SetOffhandPrimaryClass", "throwingknife");
-                        player.Call("giveweapon", "throwingknife_mp");
-                        player.Call("setweaponammoclip", "throwingknife_mp", 1);
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!fg")
-                {
-                    if (600 <= points)
-                    {
-                        MyStats.PointAdd(player, -600);
-                        player.Call("iprintlnbold", "^1You bought : ^52 Flash Grenades!");
-                        player.Call("SetOffhandSecondaryClass", "flash");
-                        player.Call("giveweapon", "flash_grenade_mp");
-                        player.Call("setweaponammoclip", "flash_grenade_mp", 2);
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!sm")
-                {
-                    if (400 <= points)
-                    {
-                        MyStats.PointAdd(player, -400);
-                        player.Call("iprintlnbold", "^1You bought : ^5Smoke Grenade!");
-                        player.Call("SetOffhandSecondaryClass", "smoke");
-                        player.Call("giveweapon", "smoke_grenade_mp");
-                        player.Call("setweaponammoclip", "smoke_grenade_mp", 1);
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!cl")
-                {
-                    if (300 <= points)
-                    {
-                        MyStats.PointAdd(player, -300);
-                        player.Call("iprintlnbold", "^1You bought : ^5Claymore!");
-                        player.Call("SetOffhandSecondaryClass", "claymore");
-                        player.Call("giveweapon", "claymore_mp");
-                        player.Call("setweaponammoclip", "claymore_mp", 1);
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!sx")
-                {
-                    if (5000 <= points)
-                    {
-                        MyStats.PointAdd(player, -5000);
-                        player.Call("iprintlnbold", "^1You bought : ^5Semtex Grenade!");
-                        player.Call("SetOffhandPrimaryClass", "other");
-                        player.Call("giveweapon", "semtex_mp");
-                        player.Call("givemaxammo", "semtex_mp");
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!la")
-                {
-                    if (500 <= points)
-                    {
-                        MyStats.PointAdd(player, -500);
-                        player.Call("iprintlnbold", "^1You bought : ^5Stinger!");
-                        string weaponname = "stinger_mp";
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-
-                if (strArrays[0].ToLower() == "!wh")
-                {
-                    if (500 <= points)
-                    {
-                        MyStats.PointAdd(player, -500);
-                        player.Call("iprintlnbold", "^1You bought : ^5WallHack!");
-                        player.Call("thermalvisionfofoverlayon");
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!hp")
-                {
-                    //price = 1500;
-                    price = 2500;
-                    if (price <= points)
-                    {
-                        if (player.GetField<int>("hashp") == 1)
-                        {
-                            player.Call("iprintlnbold", "^1You already have ^2Double HP");
-                        }
-
-                        if (player.GetField<int>("hashp") == 0)
-                        {
-                            MyStats.PointAdd(player, -price);
-                            player.SetField("hashp", 1);
-                            ShopFX(player);
-
-                            player.Call("iprintlnbold", "^1You bought : ^5Double HP");
-                        }
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                    return BaseScript.EventEat.EatGame;
-                }
-            }
-
-            if (team == "allies")
-            {
-                if (strArrays[0].ToLower() == "!hp")
-                {
-                    price = 1500;
-                    //price = 2500;
-                    if (price <= points)
-                    {
-                        if (player.GetField<int>("hashp") == 1)
-                        {
-                            player.Call("iprintlnbold", "^1You already have ^2Double HP");
-                        }
-
-                        if (player.GetField<int>("hashp") == 0)
-                        {
-                            MyStats.PointAdd(player, -price);
-                            player.SetField("hashp", 1);
-                            ShopFX(player);
-
-                            player.Call("iprintlnbold", "^1You bought : ^5Double HP");
-                        }
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (message.ToLower().StartsWith("!atk"))
-                {
-                        if (2000 <= points)
-                        {
-                            MyStats.PointAdd(player, -2000);
-                            player.Call("iprintlnbold", "^1You bought : ^5Anti Throwing Knife!");
-                            player.SetField("hasatk", 1);
-                        }
-                        else
-                        {
-                            player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                        }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (message.ToLower().StartsWith("!up"))
-                {
-                    WeaponUpgrade(player);
-                    ShopFX(player);
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (message.ToLower().StartsWith("!am"))
-                {
-                    if (150 <= points)
-                    {
-                        MyStats.PointAdd(player, -150);
-                        player.Call("iprintlnbold", "^1You bought : ^5Maximum Ammo!");
-                        player.Call("givemaxammo", player.CurrentWeapon);
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (message.ToLower().StartsWith("!aug"))
-                {
-                    if (2500 <= points)
-                    {
-                        MyStats.PointAdd(player, -2500);
-                        player.Call("iprintlnbold", "^1You bought : ^5AUG!");
-                        player.Call("giveweapon", "iw5_m60jugg_mp_silencer_camo01");
-                        player.SwitchToWeaponImmediate("iw5_m60jugg_mp_silencer_camo01");
-                        ShopFX(player);
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (message.ToLower().StartsWith("!ri"))
-                {
-                        if (500 <= points)
-                        {
-                            MyStats.PointAdd(player, -500);
-                            player.Call("iprintlnbold", "^1You bought : ^5Riot Shield!");
-                            player.Call("giveweapon", "riotshield_mp");
-                            player.SwitchToWeaponImmediate("riotshield_mp");
-                            ShopFX(player);
-                        }
-                        else
-                        {
-                            player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                        }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!jff")
-                {
-                        if (4000 <= points)
-                        {
-                            MyStats.PointAdd(player, -3500);
-                            player.Call("iprintlnbold", "^1You bought : ^5Just For Fun :)");
-                            player.SetField("isjff", 1);
-                            mdlchanger(player);
-                        }
-                        else
-                        {
-                            player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                        }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!hide")
-                {
-                        if (5000 <= points)
-                        {
-                            MyStats.PointAdd(player, -5000);
-                            player.Call("iprintlnbold", "^1You bought : ^5Invisable For 60 Seconds!!!");
-                            player.Call("hide");
-                            ShopFX(player);
-                            player.AfterDelay(60000, entity =>
-                            {
-                                player.Call("iprintlnbold", "^1Invisibility Off");
-                                player.Call("show");
-                            });
-                        }
-                        else
-                        {
-                            player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                        }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!go")
-                {
-                    if (7000 <= points)
-                    {
-                        MyStats.PointAdd(player, -7000);
-                        player.Call("iprintlnbold", "^1You bought : ^5Gold ACR + ^3Unlimited Ammo!");
-
-                        player.TakeWeapon(player.CurrentWeapon);
-                        string weaponname = Utilities.BuildWeaponName("iw5_acr", "reflex", "none", 11, 0);
-                        player.Call("giveweapon", weaponname);
-                        player.SetField("isgold", 1);
-                        ShopFX(player);
-
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                            OnInterval(100, () =>
-                            {
-                                if (player.CurrentWeapon.StartsWith("iw5_acr"))
-                                {
-                                    Ammo(entity, 99);
-                                    Stock(entity, 99);
-                                }
-                                return true;
-                            });
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!gg")
-                {
-                        string[] strArray = message.Split(new char[] { ' ' });
-
-                        if ((int)strArray.Length <= 1)
-                        {
-                            this.TellClient(player, "^1Enter a Playername");
-                            return EventEat.EatGame;
-                        }
-
-                        Entity entity = this.FindByName(strArray[1]);
-                        string team2 = entity.GetField<string>("sessionteam");
-
-                        if (team2 == "axis")
-                        {
-                            return EventEat.EatGame;
-                        }
+                        Entity entity = this.FindByName(strArrays[1]);
 
                         if (entity == null)
                         {
                             this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                            return EventEat.EatGame;
+                        }
+
+                        int gp = 0;
+                        gp = int.Parse(strArrays[2]);
+
+                        int playerPoint = player.GetField<int>("cash");
+
+                        if (gp >= 0)
+                        {
+                            if (gp <= playerPoint)
+                            {
+
+                                player.Call("iprintlnbold", gp + "^1 Points sent to ^2" + entity.Name);
+                                entity.Call("iprintlnbold", "^2" + gp + " ^1Points recieved from ^2" + player.Name);
+                                MyStats.PointAdd(player, -gp);
+                                MyStats.PointAdd(entity, gp);
+                            }
+                            else
+                            {
+                                player.Call("iprintlnbold", "^1You dont have enough points. Your points = ^6" + playerPoint);
+                            }
+                        }
+
+                        File.AppendAllText("scripts\\MyShop\\PointTransfers\\Transfers.txt", string.Concat(DateTime.Now + "  ==>  " + gp + " points from " + player.Name + " to " + entity.Name + "\n"));
+
+                        return EventEat.EatGame;
+                    }
+                    else if (strArrays[0].ToLower().ToString() == "gg")
+                    {
+                        Entity entity = this.FindByName(strArrays[1]);
+
+                        if (entity == null)
+                        {
+                            this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                            return EventEat.EatGame;
+                        }
+
+                        string team2 = entity.GetField<string>("sessionteam");
+
+                        if (team2 == "axis")
+                        {
                             return EventEat.EatGame;
                         }
 
@@ -1121,742 +690,800 @@ namespace MyShop
                         entity.SetField("incomingweapon", weaponname);
                         entity.SetField("incomingweaponfrom", player.Name);
 
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!yes")
-                {
-                    string weapname = player.GetField<string>("incomingweapon");
-
-                    if (weapname == "nope")
-                    {
-                        player.Call("iprintlnbold", "^1Nothing Found.");
-                    }
-                    string weapowner;
-
-                    if (weapname != "nope")
-                    {
-                        weapowner = player.GetField<string>("incomingweaponfrom");
-                        Entity entity = this.FindByName(weapowner);
-                        entity.TakeWeapon(weapname);
-                        player.Call("giveweapon", weapname);
-                        player.SwitchToWeapon(weapname);
-                        player.SetField("incomingweaponfrom", "null");
-                        player.SetField("incomingweapon", "nope");
-                    }
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!no")
-                {
-                    player.SetField("incomingweaponfrom", "null");
-                    player.SetField("incomingweapon", "nope");
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!1")
-                {
-                    if (150 <= points)
-                    {
-                        MyStats.PointAdd(player, -150);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Pistol!");
-                        player.TakeWeapon(player.CurrentWeapon);
-                        string weaponname = WeaponUtils.getRandomPistol(1, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!2")
-                {
-                    if (200 <= points)
-                    {
-                        MyStats.PointAdd(player, -200);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random AutoPistol!");
-                        player.TakeWeapon(player.CurrentWeapon);
-                        string weaponname = WeaponUtils.getRandomAutoPistol(2, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                            player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!3")
-                {
-                    if (250 <= points)
-                    {
-                        MyStats.PointAdd(player, -250);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random SMG!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomSMG(3, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                           player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!4")
-                {
-                    if (600 <= points)
-                    {
-                        MyStats.PointAdd(player, -600);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Assault Rifle!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomAR(4, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^^1You Don't Have Enough Points!");
-                    }
-                }
-                if (strArrays[0].ToLower() == "!5")
-                {
-                    if (600 <= points)
-                    {
-                        MyStats.PointAdd(player, -600);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Shotgun!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomShotgun(5, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!6")
-                {
-                    if (750 <= points)
-                    {
-                        MyStats.PointAdd(player, -750);
-                        player.Call("iprintlnbold", "^1You Bought : ^5Random Sniper Rifle!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomSniper(6, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!7")
-                {
-                    if (850 <= points)
-                    {
-                        MyStats.PointAdd(player, -850);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Light Machine Gun!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomLMG(7, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!8")
-                {
-                    if (400 <= points)
-                    {
-                        MyStats.PointAdd(player, -400);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Launcher!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomLauncher(8, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!9")
-                {
-                    if (500 <= points)
-                    {
-                        MyStats.PointAdd(player, -500);
-                        player.Call("iprintlnbold", "^1You bought : ^5Random Weapon!");
-                        player.TakeWeapon(player.CurrentWeapon);
-
-                        string weaponname = WeaponUtils.getRandomWeapon(11, 1);
-                        player.Call("giveweapon", weaponname);
-                        ShopFX(player);
-                        player.AfterDelay(100, entity =>
-                        {
-                            player.SwitchToWeaponImmediate(weaponname);
-                        });
-                    }
-                    else
-                    {
-                       player.Call("iprintlnbold", "^1You Dont Have Enough Points!");
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!lol")
-                {
-                    if (100 <= points)
-                    {
-                        MyStats.PointAdd(player, -100);
-                        player.Call("iprintlnbold", "^3You bought : ^2Semtex Grenade!");
-                        player.Call("SetOffhandPrimaryClass", "other");
-                        player.Call("giveweapon", "semtex_mp");
-                        player.Call("givemaxammo", "semtex_mp");
-                        //player.Call("setweaponammoclip", "semtex_mp", 3);
-                        ShopFX(player);
-                        if (player.GetField<int>("ismaster") == 1)
-                        {
-                            OnInterval(1000, () =>
-                            {
-                                Nades(player, 99);
-                                return true;
-                            });
-                        }
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You dont have enough points.");
-                    }
-                }
-            }
-
-
-
-            if (message.ToLower().StartsWith("!masters"))
-            {
-                foreach (string xuid in MyStats.MasterAdminsXUIDs)
-                {
-                    this.TellClient(player, "^1" + xuid);
-                }
-                if (player.GetField<int>("ismaster") == 1)
-                {
-                    TellClient(player, "you are master");
-                }
-
-                if (MyStats.MasterAdminsXUIDs.Contains(player.GUID.ToString()))
-                {
-                    TellClient(player, "your xuid is in list");
-                }
-            }
-
-
-
-            if (player.GetField<int>("ismaster") == 1)
-            {
-                if (strArrays[0].ToLower() == "!drop")
-                {
-                    player.AfterDelay(200, entity =>
-                    {
-                        player.Call("dropItem", player.CurrentWeapon);
-                    });
-                }
-
-                if (strArrays[0].ToLower() == "!troll")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    entity.SetField("istroll", 1);
-
-                    OnInterval(1500, () =>
-                    {
-                        if (entity.GetField<int>("istroll") == 1)
-                        {
-                            AfterDelay(100, () =>
-                            {
-                                entity.Call("suicide");
-                            });
-                        }
-                        return true;
-                    });
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!untroll")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    entity.SetField("istroll", 0);
-
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!suicide")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    AfterDelay(100, () =>
-                    {
-                        entity.Call("suicide");
-                    });
-
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!tele")
-                {
-
-                    string[] strArray = message.Split(new char[] { ' ' });
-                    string str = "";
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
                         return EventEat.EatGame;
                     }
 
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return EventEat.EatGame;
-                    }
-
-                    string secondPlayer = "";
-
-                    for (int i = 2; i < (int)strArray.Length; i++)
-                    {
-                        str = string.Concat(str, " ", strArray[i]);
-                        secondPlayer = str;
-                    }
-
-                    Parameter[] origin = new Parameter[] { entity.Origin };
-                    player.Call("setorigin", origin);
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!tele2")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-                    string str = "";
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return EventEat.EatGame;
-                    }
-
-                    string secondPlayer = "";
-
-                    for (int i = 2; i < (int)strArray.Length; i++)
-                    {
-                        str = string.Concat(str, " ", strArray[i]);
-                        secondPlayer = str;
-                    }
-
-                    Parameter[] origin = new Parameter[] { player.Origin };
-                    entity.Call("setorigin", origin);
-                    return EventEat.EatGame;
-                }
-
-
-                if (strArrays[0].ToLower() == "!tpall")
-                {
-                    Parameter[] origin = new Parameter[] { player.Origin };
-
-                    foreach (Entity entity2 in Players)
-                    {
-                        entity2.AfterDelay(50, entity =>
-                        {
-                            entity2.Call("setorigin", origin);
-                        });
-                    }
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!suiall")
-                {
-                    foreach (Entity entity2 in Players)
-                    {
-                        entity2.AfterDelay(200, entity =>
-                        {
-                            entity2.Call("suicide");
-                        });
-                    }
-                }
-
-                if (strArrays[0].ToLower() == "!spall")
-                {
-                    foreach (Entity entity2 in Players)
-                    {
-                        TellClient(player, entity2.Name + "^6 point = ^5" + entity2.GetField<int>("cash"));
-                    }
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!sp")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return EventEat.EatGame;
-                    }
-
-                    int playerPoint = entity.GetField<int>("cash");
-
-                    player.Call("iprintlnbold", "^1" + entity.Name + "^3Point = ^5" + playerPoint);
-
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!setpoint")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-                    string str = "";
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return EventEat.EatGame;
-                    }
-
-                    int gp = 0;
-
-                    for (int i = 2; i < (int)strArray.Length; i++)
-                    {
-                        str = string.Concat(str, " ", strArray[i]);
-                        gp = int.Parse(str);
-                    }
-
-                    MyStats.PointEditor(entity, gp);
-                    entity.SetField("cash", gp);
-                    TellClient(player, entity.Name + " ^5Point set to ^6" + gp);
-                    return EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!gpall")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-                    int gpall = int.Parse(strArray[1].ToString());
-
-                    HudElem hud = HudElem.CreateServerFontString("default", 2f);
-                    Parameter[] parameterArray = new Parameter[] { 200, 8000, 1000 };
-                    hud.Call("setpulsefx", parameterArray);
-                    hud.HideWhenInMenu = false;
-                    hud.Foreground = true;
-                    hud.Alpha = 1f;
-                    hud.GlowAlpha = 5f;
-                    hud.SetPoint("LEFT", "LEFT", 300, 0);
-                    hud.SetText("^5" + gpall + " ^1Points from ^5" + player.Name + " ^1to all :D");
-
-                    foreach (Entity entity2 in Players)
-                    {
-                        entity2.AfterDelay(50, entity =>
-                        {
-                            //entity2.Call("iprintlnbold", "^2" + gpall + " ^1Points from ^2" + player.Name + " ^1to all :D");
-                            MyStats.PointAdd(entity2, gpall);
-                        });
-                    }
-                    return EventEat.EatGame;
-                }
-
-                if (message.ToLower() == "!org")
-                {
-                    player.OnNotify("weapon_fired", (Entity owner, Parameter entity, Parameter weaponName) =>
-                    {
-                        Entity Target = entity.As<Entity>();
-                        string wep = weaponName.As<string>();
-                        if (wep != "uav_strike_marker_mp")
-                            return;
-                        Vector3 target = Target.Origin;
-                        AfterDelay(50, () =>
-                        {
-                            foreach (Entity ent in Players)
-                            {
-                                ent.Call("setorigin", target);
-                            }
-                        });
-                    });
-
-                    if (150 <= points)
-                    {
-                        MyStats.PointAdd(player, -150);
-                        player.Call("giveweapon", "uav_strike_marker_mp");
-                        player.SwitchToWeaponImmediate("uav_strike_marker_mp");
-                        OnInterval(100, () =>
-                        {
-                            if (player.CurrentWeapon.StartsWith("uav_strike_marker_mp"))
-                            {
-                                Ammo(player, 99);
-                                Stock(player, 99);
-                            }
-                            return true;
-                        });
-                    }
-                    else
-                    {
-                        player.Call("iprintlnbold", "^1You dont have enough points.");
-                    }
-                }
-
-                if (message.ToLower().StartsWith("!turret"))
-                {
-                    Vector3 vector3 = new Vector3()
-                    {
-                        X = 0f,
-                        Y = player.GetField<Vector3>("angles").Y,
-                        Z = 0f
-                    };
-
-                    string vec = "(" + player.Origin.X.ToString() + "," + player.Origin.Y.ToString() + "," + player.Origin.Z.ToString() + ")";
-
-                    CreateTurret(parseVec3(vec), vector3);
-                }
-
-                if (message.ToLower().StartsWith("!weap"))
-                {
-                    player.Call("iprintlnbold", player.CurrentWeapon.ToString());
-                }
-
-                if (strArrays[0].ToLower() == "!tw")
-                {
-                    string[] strArray = message.Split(new char[] { ' ' });
-
-                    if ((int)strArray.Length <= 1)
-                    {
-                        this.TellClient(player, "^1Enter a playername");
-                        return BaseScript.EventEat.EatGame;
-                    }
-
-                    Entity entity = this.FindByName(strArray[1]);
-
-                    if (entity == null)
-                    {
-                        this.TellClient(player, "^1That user wasn't found or multiple were found.");
-                        return BaseScript.EventEat.EatGame;
-                    }
-                    entity.TakeAllWeapons();
-                    return BaseScript.EventEat.EatGame;
-                }
-
-                if (strArrays[0].ToLower() == "!speed")
-                {
-                    player.SetField("movespeed", 2f);
-
-                    OnInterval(100, () =>
-                    {
-                        player.Call("setmovespeedscale", new Parameter(player.GetField<float>("movespeed")));
-                        return true;
-                    });
-                    return BaseScript.EventEat.EatGame;
-                }
-            }
-
-
-            //if (player.IP.ToString() != "2.184.91.73:3074")
-            //{
-                /*if (strArrays[0].ToLower() == "!god")
-                {
                     if (player.GetField<int>("ismaster") == 1)
                     {
-                        if (team == "allies")
+                        if (strArrays[0].ToLower() == "tele")
                         {
-                            if (60000 <= points)
+                            Entity entity = this.FindByName(strArrays[1]);
+
+                            if (entity == null)
                             {
-                                MyStats.PointAdd(player, -60000);
-                                player.Call("iprintlnbold", "^3You bought : ^2God Mode for 2 min!");
-                                player.TakeAllWeapons();
+                                this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                                return EventEat.EatGame;
+                            }
 
-                                string weaponname = Utilities.BuildWeaponName("iw5_acr", "reflex", "none", 11, 0);
-                                player.Call("giveweapon", weaponname);
+                            Parameter[] origin = new Parameter[] { entity.Origin };
+                            player.Call("setorigin", origin);
+                            return EventEat.EatGame;
+                        }
+                        else if (strArrays[0].ToLower() == "tele2")
+                        {
+                            Entity entity = this.FindByName(strArrays[1]);
 
-                                doCustomWeapon(player, "iw5_acr", "ac130_25mm_mp");//c4_mp
-                                player.SwitchToWeaponImmediate(weaponname);
-                                player.SetField("isgod", 1);
+                            if (entity == null)
+                            {
+                                this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                                return EventEat.EatGame;
+                            }
 
-                                AfterDelay(120000, () =>
-                                {
-                                    player.SetField("isgod", 0);
-                                    player.Call("iprintlnbold", "^1God Mode Disabled!");
-                                });
+                            Parameter[] origin = new Parameter[] { player.Origin };
+                            entity.Call("setorigin", origin);
+                            return EventEat.EatGame;
+                        }
+                        else if (strArrays[0].ToLower() == "setpoint")
+                        {
+                            Entity entity = this.FindByName(strArrays[1]);
+
+                            if (entity == null)
+                            {
+                                this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                                return EventEat.EatGame;
+                            }
                             
-                                OnInterval(100, () =>
+                            int gp = 0;
+                            gp = int.Parse(strArrays[2]);
+
+                            entity.SetField("cash", gp);
+
+                            player.Call("iprintlnbold", "^1" + entity.Name + "^3Point set to = ^5" + gp);
+
+                            return EventEat.EatGame;
+                        }
+                        else if (strArrays[0].ToLower() == "tw")
+                        {
+                            Entity entity = this.FindByName(strArrays[1]);
+
+                            if (entity == null)
+                            {
+                                this.TellClient(player, "^1That user wasn't found or multiple were found.");
+                                return EventEat.EatGame;
+                            }
+
+                            entity.TakeAllWeapons();
+
+                            return EventEat.EatGame;
+                        }
+                        else if (strArrays[0].ToLower() == "gpall")
+                        {
+                            int gpall = int.Parse(strArrays[1].ToString());
+
+                            HudElem hud = HudElem.CreateServerFontString("default", 2f);
+                            Parameter[] parameterArray = new Parameter[] { 200, 8000, 1000 };
+                            hud.Call("setpulsefx", parameterArray);
+                            hud.HideWhenInMenu = false;
+                            hud.Foreground = true;
+                            hud.Alpha = 1f;
+                            hud.GlowAlpha = 5f;
+                            hud.SetPoint("LEFT", "LEFT", 300, 0);
+                            hud.SetText("^5" + gpall + " ^1Points from ^5" + player.Name + " ^1to all :D");
+
+                            foreach (Entity entity2 in Players)
+                            {
+                                entity2.AfterDelay(50, entity =>
                                 {
-                                    if (player.GetField<int>("isgod") == 1)
-                                    {
-                                        Ammo(player, 99);
-                                        Stock(player, 99);
-                                    }
-                                    return true;
+                                    MyStats.PointAdd(entity2, gpall);
                                 });
                             }
-                            else
-                            {
-                                player.Call("iprintlnbold", "^1You dont have enough points.");
-                            }
-                        
+                            return EventEat.EatGame;
                         }
                     }
-                }*/
-            //}
-            if (message.StartsWith("!"))
-            {
-                string[] readArray = message.Split('!');
-                string cmd = readArray[1].ToString();
-                return BaseScript.EventEat.EatGame;
+                }
+                
+
+                //string cmd = message.Split('!')[0].ToLower();
+
+
+
+                //for humans
+                if (team == "allies")
+                {
+                    switch (cmd)
+                    {
+                        case "sui":
+                            {
+                                player.AfterDelay(200, entity =>
+                                {
+                                    player.Call("suicide");
+                                });
+
+                                return EventEat.EatGame;
+                            }
+                        case "1":
+                            {
+                                if (150 <= points)
+                                {
+                                    MyStats.PointAdd(player, -150);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Pistol!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+                                    string weaponname = WeaponUtils.getRandomPistol(1, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "2":
+                            {
+                                if (200 <= points)
+                                {
+                                    MyStats.PointAdd(player, -200);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random AutoPistol!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+                                    string weaponname = WeaponUtils.getRandomAutoPistol(2, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "3":
+                            {
+                                if (250 <= points)
+                                {
+                                    MyStats.PointAdd(player, -250);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random SMG!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomSMG(3, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "4":
+                            {
+                                if (600 <= points)
+                                {
+                                    MyStats.PointAdd(player, -600);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Assault Rifle!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomAR(4, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "5":
+                            {
+                                if (600 <= points)
+                                {
+                                    MyStats.PointAdd(player, -600);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Shotgun!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomShotgun(5, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "6":
+                            {
+                                if (750 <= points)
+                                {
+                                    MyStats.PointAdd(player, -750);
+                                    player.Call("iprintlnbold", "^1You Bought : ^5Random Sniper Rifle!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomSniper(6, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "7":
+                            {
+                                if (850 <= points)
+                                {
+                                    MyStats.PointAdd(player, -850);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Light Machine Gun!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomLMG(7, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "8":
+                            {
+                                if (400 <= points)
+                                {
+                                    MyStats.PointAdd(player, -400);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Launcher!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomLauncher(8, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "9":
+                            {
+                                if (500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Random Weapon!");
+                                    player.TakeWeapon(player.CurrentWeapon);
+
+                                    string weaponname = WeaponUtils.getRandomWeapon(11, 1);
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Dont Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "aug":
+                            {
+                                if (2500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -2500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5AUG!");
+                                    player.Call("giveweapon", "iw5_m60jugg_mp_silencer_camo01");
+                                    player.SwitchToWeaponImmediate("iw5_m60jugg_mp_silencer_camo01");
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "up":
+                            {
+                                WeaponUpgrade(player);
+                                ShopFX(player);
+                                return EventEat.EatGame;
+                            }
+                        case "hp":
+                            {
+                                price = 1500;
+                                //price = 2500;
+                                if (price <= points)
+                                {
+                                    if (player.GetField<int>("hashp") == 1)
+                                    {
+                                        player.Call("iprintlnbold", "^1You already have ^2Double HP");
+                                    }
+
+                                    if (player.GetField<int>("hashp") == 0)
+                                    {
+                                        MyStats.PointAdd(player, -price);
+                                        player.SetField("hashp", 1);
+                                        ShopFX(player);
+
+                                        player.Call("iprintlnbold", "^1You bought : ^5Double HP");
+                                    }
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "atk":
+                            {
+                                if (2000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -2000);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Anti Throwing Knife!");
+                                    player.SetField("hasatk", 1);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "sx":
+                            {
+                                if (100 <= points)
+                                {
+                                    MyStats.PointAdd(player, -100);
+                                    player.Call("iprintlnbold", "^3You bought : ^2Semtex Grenade!");
+                                    player.Call("SetOffhandPrimaryClass", "other");
+                                    player.Call("giveweapon", "semtex_mp");
+                                    player.Call("givemaxammo", "semtex_mp");
+                                    //player.Call("setweaponammoclip", "semtex_mp", 3);
+                                    ShopFX(player);
+                                    if (player.GetField<int>("ismaster") == 1)
+                                    {
+                                        OnInterval(1000, () =>
+                                        {
+                                            Nades(player, 99);
+                                            return true;
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You dont have enough points.");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "am":
+                            {
+                                if (150 <= points)
+                                {
+                                    MyStats.PointAdd(player, -150);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Maximum Ammo!");
+                                    player.Call("givemaxammo", player.CurrentWeapon);
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "ri":
+                            {
+                                if (500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Riot Shield!");
+                                    player.Call("giveweapon", "riotshield_mp");
+                                    player.SwitchToWeaponImmediate("riotshield_mp");
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "jff":
+                            {
+                                if (4000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -3500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Just For Fun :)");
+                                    player.SetField("isjff", 1);
+                                    mdlchanger(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "hide":
+                            {
+                                if (5000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -5000);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Invisable For 60 Seconds!!!");
+                                    player.Call("hide");
+                                    ShopFX(player);
+                                    player.AfterDelay(60000, entity =>
+                                    {
+                                        player.Call("iprintlnbold", "^1Invisibility Off");
+                                        player.Call("show");
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "go":
+                            {
+                                if (7000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -7000);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Gold ACR + ^3Unlimited Ammo!");
+
+                                    player.TakeWeapon(player.CurrentWeapon);
+                                    string weaponname = Utilities.BuildWeaponName("iw5_acr", "reflex", "none", 11, 0);
+                                    player.Call("giveweapon", weaponname);
+                                    player.SetField("isgold", 1);
+                                    ShopFX(player);
+
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                        OnInterval(100, () =>
+                                        {
+                                            if (player.CurrentWeapon.StartsWith("iw5_acr"))
+                                            {
+                                                Ammo(entity, 99);
+                                                Stock(entity, 99);
+                                            }
+                                            return true;
+                                        });
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "yes":
+                            {
+                                string weapname = player.GetField<string>("incomingweapon");
+
+                                if (weapname == "nope")
+                                {
+                                    player.Call("iprintlnbold", "^1Nothing Found.");
+                                }
+                                string weapowner;
+
+                                if (weapname != "nope")
+                                {
+                                    weapowner = player.GetField<string>("incomingweaponfrom");
+                                    Entity entity = this.FindByName(weapowner);
+                                    entity.TakeWeapon(weapname);
+                                    player.Call("giveweapon", weapname);
+                                    player.SwitchToWeapon(weapname);
+                                    player.SetField("incomingweaponfrom", "null");
+                                    player.SetField("incomingweapon", "nope");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "no":
+                            {
+                                player.SetField("incomingweaponfrom", "null");
+                                player.SetField("incomingweapon", "nope");
+                                return EventEat.EatGame;
+                            }
+                    }
+                }
+
+                //for zombies
+                if (team == "axis")
+                {
+                    switch (cmd)
+                    {
+                        case "hp":
+                            {
+                                price = 2500;
+                                if (price <= points)
+                                {
+                                    if (player.GetField<int>("hashp") == 1)
+                                    {
+                                        player.Call("iprintlnbold", "^1You already have ^2Double HP");
+                                    }
+
+                                    if (player.GetField<int>("hashp") == 0)
+                                    {
+                                        MyStats.PointAdd(player, -price);
+                                        player.SetField("hashp", 1);
+                                        ShopFX(player);
+
+                                        player.Call("iprintlnbold", "^1You bought : ^5Double HP");
+                                    }
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "sx":
+                            {
+                                if (5000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -5000);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Semtex Grenade!");
+                                    player.Call("SetOffhandPrimaryClass", "other");
+                                    player.Call("giveweapon", "semtex_mp");
+                                    player.Call("givemaxammo", "semtex_mp");
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "cl":
+                            {
+                                if (300 <= points)
+                                {
+                                    MyStats.PointAdd(player, -300);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Claymore!");
+                                    player.Call("SetOffhandSecondaryClass", "claymore");
+                                    player.Call("giveweapon", "claymore_mp");
+                                    player.Call("setweaponammoclip", "claymore_mp", 1);
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "sm":
+                            {
+                                if (400 <= points)
+                                {
+                                    MyStats.PointAdd(player, -400);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Smoke Grenade!");
+                                    player.Call("SetOffhandSecondaryClass", "smoke");
+                                    player.Call("giveweapon", "smoke_grenade_mp");
+                                    player.Call("setweaponammoclip", "smoke_grenade_mp", 1);
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "ttk":
+                            {
+                                if (2000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -2000);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Teleporter tk!");
+                                    player.SetField("hasttk", 1);
+                                    player.Call("SetOffhandPrimaryClass", "throwingknife");
+                                    player.Call("giveweapon", "throwingknife_mp");
+                                    player.Call("setweaponammoclip", "throwingknife_mp", 1);
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "fg":
+                            {
+                                if (600 <= points)
+                                {
+                                    MyStats.PointAdd(player, -600);
+                                    player.Call("iprintlnbold", "^1You bought : ^52 Flash Grenades!");
+                                    player.Call("SetOffhandSecondaryClass", "flash");
+                                    player.Call("giveweapon", "flash_grenade_mp");
+                                    player.Call("setweaponammoclip", "flash_grenade_mp", 2);
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "la":
+                            {
+                                if (500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5Stinger!");
+                                    string weaponname = "stinger_mp";
+                                    player.Call("giveweapon", weaponname);
+                                    ShopFX(player);
+                                    player.AfterDelay(100, entity =>
+                                    {
+                                        player.SwitchToWeaponImmediate(weaponname);
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "wh":
+                            {
+                                if (500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5WallHack!");
+                                    player.Call("thermalvisionfofoverlayon");
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "esp":
+                            {
+                                if (500 <= points)
+                                {
+                                    MyStats.PointAdd(player, -500);
+                                    player.Call("iprintlnbold", "^1You bought : ^5More Speed!");
+                                    player.SetField("movespeed", 1.7f);
+                                    player.SetField("hasesp", 1);
+                                    ShopFX(player);
+                                    OnInterval(100, () =>
+                                    {
+                                        player.Call("setmovespeedscale", new Parameter(player.GetField<float>("movespeed")));
+                                        return true;
+                                    });
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "re":
+                            {
+                                if (50000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -50000);
+                                    MyStats.AllPointsWriter();
+
+                                    player.Call("iprintlnbold", "^1You bought : ^5Restart Map!");
+                                    ServerSay("^2" + player.Name + " ^1Bought Restart Map.");
+                                    AfterDelay(4000, () =>
+                                    {
+                                        Utilities.ExecuteCommand("fast_restart");
+                                    });
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+
+                                return EventEat.EatGame;
+                            }
+                    }
+                }
+
+                //for Master Admins
+                if (player.GetField<int>("ismaster") == 1)
+                {
+                    switch (cmd)
+                    {
+                        case "tpall":
+                            {
+                                Parameter[] origin = new Parameter[] { player.Origin };
+
+                                foreach (Entity entity2 in Players)
+                                {
+                                    entity2.AfterDelay(50, entity =>
+                                    {
+                                        entity2.Call("setorigin", origin);
+                                    });
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "suiall":
+                            {
+                                foreach (Entity entity2 in Players)
+                                {
+                                    entity2.AfterDelay(200, entity =>
+                                    {
+                                        entity2.Call("suicide");
+                                    });
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "spall":
+                            {
+                                foreach (Entity entity2 in Players)
+                                {
+                                    TellClient(player, entity2.Name + "^6 point = ^5" + entity2.GetField<int>("cash"));
+                                }
+                                return EventEat.EatGame;
+                            }
+                        case "weap":
+                            {
+                                player.Call("iprintlnbold", player.CurrentWeapon.ToString());
+                                return EventEat.EatGame;
+                            }
+                        case "speed":
+                            {
+                                player.SetField("movespeed", 2f);
+
+                                OnInterval(100, () =>
+                                {
+                                    player.Call("setmovespeedscale", new Parameter(player.GetField<float>("movespeed")));
+                                    return true;
+                                });
+                                return EventEat.EatGame;
+                            }
+                    }
+                }
             }
 
-            if (player.GetField<string>("customname") != "null")
-            {
-                string customname = player.GetField<string>("customname");
-                Utilities.RawSayAll(customname + ": ^3" + message);
-                return BaseScript.EventEat.EatGame;
-            }
-
-            return BaseScript.EventEat.EatNone;
+            return EventEat.EatNone;
         }
 
         public void doCustomWeapon(Entity player, string name, string bullet)
         {
-                player.OnNotify("weapon_fired", (p, weaponName) =>
+            player.OnNotify("weapon_fired", (p, weaponName) =>
+            {
+                if (((string)weaponName).Contains(name))
                 {
-                    if (((string)weaponName).Contains(name))
-                    {
-                        Call("magicbullet", bullet,
-                            new Parameter(player.Call<Vector3>("getTagOrigin", "tag_weapon_left")),
-                            new Parameter(Call<Vector3>("anglestoforward", player.Call<Vector3>("getPlayerAngles")) * 1000000),
-                            new Parameter(player));
-                    }
-                });
-        }
-
-        public void buyItem(Entity ent, int price, string itemname)
-        {
-            int pnt = ent.GetField<int>("cash");//MyStats.PointsReader(ent);
-
-            if (price <= pnt)
-            {
-                MyStats.PointAdd(ent, -price);
-                ent.Call("iprintlnbold", "^1You bought : ^5" + itemname);
-                ok = true;
-            }
-            else
-            {
-                ent.Call("iprintlnbold", "^3You Don't Have Enough Points For : ^1" + itemname);
-                ok = false;
-            }
+                    Call("magicbullet", bullet,
+                        new Parameter(player.Call<Vector3>("getTagOrigin", "tag_weapon_left")),
+                        new Parameter(Call<Vector3>("anglestoforward", player.Call<Vector3>("getPlayerAngles")) * 1000000),
+                        new Parameter(player));
+                }
+            });
         }
 
         public bool Ammo(Entity player, int amount)
@@ -2082,28 +1709,6 @@ namespace MyShop
                 default:
                     break;
             }
-
-        }
-
-        private void CreateTurret(Vector3 location, Vector3 angles)
-        {
-            this.Call<Entity>("spawn", new Parameter[1] { (Parameter)"script_model" }).SetField("angles", new Parameter(angles));
-            if (angles.Equals((object)null))
-                angles = new Vector3(0.0f, 0.0f, 0.0f);
-            Entity entity = this.Call<Entity>("spawnTurret", (Parameter)"misc_turret", new Parameter(location), (Parameter)"pavelow_minigun_mp");
-            entity.Call("setmodel", new Parameter[1] { (Parameter)"sentry_minigun" });
-            entity.SetField("angles", (Parameter)angles);
-        }
-
-        private Vector3 parseVec3(string vec3)
-        {
-            vec3 = vec3.Replace(" ", string.Empty);
-            if (!vec3.StartsWith("(") && !vec3.EndsWith(")")) throw new IOException("Malformed MapEdit File!");
-            vec3 = vec3.Replace("(", string.Empty);
-            vec3 = vec3.Replace(")", string.Empty);
-            String[] split = vec3.Split(',');
-            if (split.Length < 3) throw new IOException("Malformed MapEdit File!");
-            return new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
         }
 
         public static string GetStringInBetween(string strBegin, string strEnd, string strSource, bool includeBegin, bool includeEnd)
@@ -2215,6 +1820,23 @@ namespace MyShop
             else
             {
                 TellClient(ent, "^1you dont have enogh points for Upgrade!");
+            }
+        }
+
+        public void buyItem(Entity ent, int price, string itemname)
+        {
+            int pnt = ent.GetField<int>("cash");//MyStats.PointsReader(ent);
+
+            if (price <= pnt)
+            {
+                ent.SetField("cash", (pnt - price));
+                ent.Call("iprintlnbold", "^1You bought : ^5" + itemname);
+                ok = true;
+            }
+            else
+            {
+                ent.Call("iprintlnbold", "^3You Don't Have Enough Points For : ^1" + itemname);
+                ok = false;
             }
         }
 

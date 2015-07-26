@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShop", "MyShop\MyShop.csproj", "{CCFB97CA-20C0-4974-9539-D34BEDB97082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShop", "MyShop\MyShop.csproj", "{ADCE9219-17FE-4B7B-A094-A56E0202DB4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CCFB97CA-20C0-4974-9539-D34BEDB97082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCFB97CA-20C0-4974-9539-D34BEDB97082}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCFB97CA-20C0-4974-9539-D34BEDB97082}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCFB97CA-20C0-4974-9539-D34BEDB97082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADCE9219-17FE-4B7B-A094-A56E0202DB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADCE9219-17FE-4B7B-A094-A56E0202DB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADCE9219-17FE-4B7B-A094-A56E0202DB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADCE9219-17FE-4B7B-A094-A56E0202DB4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

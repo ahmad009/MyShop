@@ -70,7 +70,7 @@ namespace MyShop
                         if (str.StartsWith(player.Name))
                         {
                             char[] chrArray = new char[] { '=' };
-                            player.SetField("customname" , str.Split(chrArray)[1]);
+                            player.SetField("customname", str.Split(chrArray)[1]);
                         }
                     }
                 }
@@ -173,29 +173,29 @@ namespace MyShop
                 string str = myListOfStrings[i];
                 //if (str.StartsWith(" , Kills"))
                 //{
-                    char[] chrArray = new char[] { '=' };
-                    kills = int.Parse(str.Split(chrArray)[1]);
-                    if (kills == max2)
-                    {
-                        string text = str.Split(chrArray)[0];
-                        string[] Arr = new string[] { " , ID:" };
-                        string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
-                        playername2 = spl[0];
-                    }
-                    if (kills == max1)
-                    {
-                        string text = str.Split(chrArray)[0];
-                        string[] Arr = new string[] { " , ID:" };
-                        string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
-                        playername1 = spl[0];
-                    }
-                    if (kills == max)
-                    {
-                        string text = str.Split(chrArray)[0];
-                        string[] Arr = new string[] { " , ID:" };
-                        string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
-                        playername = spl[0];
-                    }
+                char[] chrArray = new char[] { '=' };
+                kills = int.Parse(str.Split(chrArray)[1]);
+                if (kills == max2)
+                {
+                    string text = str.Split(chrArray)[0];
+                    string[] Arr = new string[] { " , ID:" };
+                    string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
+                    playername2 = spl[0];
+                }
+                if (kills == max1)
+                {
+                    string text = str.Split(chrArray)[0];
+                    string[] Arr = new string[] { " , ID:" };
+                    string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
+                    playername1 = spl[0];
+                }
+                if (kills == max)
+                {
+                    string text = str.Split(chrArray)[0];
+                    string[] Arr = new string[] { " , ID:" };
+                    string[] spl = text.Split(Arr, StringSplitOptions.RemoveEmptyEntries);
+                    playername = spl[0];
+                }
                 //}
             }
         }
@@ -217,31 +217,31 @@ namespace MyShop
 
         public static void PlayerPointsReader(Entity player)
         {
-            Log.Debug("Reading " + player.Name +" Stats...");
+            Log.Debug("Reading " + player.Name + " Stats...");
 
-                if (File.Exists("scripts\\MyShop\\Points\\" + player.Name + ".txt"))
+            if (File.Exists("scripts\\MyShop\\Points\\" + player.Name + ".txt"))
+            {
+                try
                 {
-                    try
+                    string raw = File.ReadAllText("scripts\\MyShop\\Points\\" + player.Name + ".txt");
+                    if (raw.StartsWith(player.UserID.ToString()))
                     {
-                        string raw = File.ReadAllText("scripts\\MyShop\\Points\\" + player.Name + ".txt");
-                        if(raw.StartsWith(player.UserID.ToString()))
-                        {
-                            int point = int.Parse(raw.Split('=')[1]);
-                            player.SetField("cash", point);
-                        }
-                        
+                        int point = int.Parse(raw.Split('=')[1]);
+                        player.SetField("cash", point);
                     }
-                    catch { }
+
                 }
-                else
+                catch { }
+            }
+            else
+            {
+                try
                 {
-                    try
-                    {
-                        File.WriteAllText("scripts\\MyShop\\Points\\" + player.Name + ".txt", string.Concat(player.UserID + "=0"));
-                        player.SetField("cash", 30000);
-                    }
-                    catch { }
+                    File.WriteAllText("scripts\\MyShop\\Points\\" + player.Name + ".txt", string.Concat(player.UserID + "=0"));
+                    player.SetField("cash", 30000);
                 }
+                catch { }
+            }
         }
     }
 }

@@ -25,14 +25,14 @@ namespace MyShop
             string[] attachments = new string[5];
             int attach = 0;
             int i = 3;
-            while(split.Length > i && attach < 5)
+            while (split.Length > i && attach < 5)
             {
                 if (!split[i].Contains("camo") && !split[i].Contains("ret") && !split[i].Contains("scope"))
                 {
-attachments[attach] = split[i];
-attachments[attach] = attachments[attach].Replace("smg", "");
-attachments[attach] = attachments[attach].Replace("lmg", "");
-attach++;
+                    attachments[attach] = split[i];
+                    attachments[attach] = attachments[attach].Replace("smg", "");
+                    attachments[attach] = attachments[attach].Replace("lmg", "");
+                    attach++;
                 }
                 i++;
             }
@@ -48,7 +48,7 @@ attach++;
             {
                 if (split[i].Contains("camo"))
                 {
-return int.Parse(split[i].Split('0')[1]);
+                    return int.Parse(split[i].Split('0')[1]);
                 }
             }
             return 0;
@@ -61,13 +61,13 @@ return int.Parse(split[i].Split('0')[1]);
             {
                 if (split[i].Contains("ret"))
                 {
-return int.Parse(split[i].Split('t')[1]);
+                    return int.Parse(split[i].Split('t')[1]);
                 }
             }
             return 0;
         }
 
-        public static string getRandomPistol(int camo=-1, int reticle=-1)
+        public static string getRandomPistol(int camo = -1, int reticle = -1)
         {
             if (camo == -1) camo = _rng.Next(14);
             if (reticle == -1) reticle = _rng.Next(7);
@@ -118,22 +118,22 @@ return int.Parse(split[i].Split('t')[1]);
 
         public static string getRandomWeapon(int camo = -1, int reticle = -1)
         {
-            switch(_rng.Next(7))
+            switch (_rng.Next(7))
             {
                 case 0:
-return getRandomPistol(camo, reticle);
+                    return getRandomPistol(camo, reticle);
                 case 1:
-return getRandomSMG(camo, reticle);
+                    return getRandomSMG(camo, reticle);
                 case 2:
-return getRandomAR(camo, reticle);
+                    return getRandomAR(camo, reticle);
                 case 3:
-return getRandomShotgun(camo, reticle);
+                    return getRandomShotgun(camo, reticle);
                 case 4:
-return getRandomSniper(camo, reticle);
+                    return getRandomSniper(camo, reticle);
                 case 5:
-return getRandomLMG(camo, reticle);
+                    return getRandomLMG(camo, reticle);
                 default:
-return getRandomLauncher(camo, reticle);
+                    return getRandomLauncher(camo, reticle);
             }
         }
 
@@ -141,8 +141,8 @@ return getRandomLauncher(camo, reticle);
         {
             Log.Write(LogLevel.All, format, p);
         }
-        
-        public static string weapon_getWeaponName(string baseName, string []attachments, int camo, int reticle)
+
+        public static string weapon_getWeaponName(string baseName, string[] attachments, int camo, int reticle)
         {
             Function.SetEntRef(-1);
             bool _usesRet = false;
@@ -151,16 +151,16 @@ return getRandomLauncher(camo, reticle);
                 // why does this matter?
                 if (GetAttachmentType(attachments[i]) == "rail")
                 {
-_usesRet = true;
+                    _usesRet = true;
                 }
 
                 // just map them... should get ignored if they arent scopes
                 if (GetAttachmentType(attachments[i]) == "rail")
                 {
-attachments[i] = AttachmentMap(attachments[i], baseName);
+                    attachments[i] = AttachmentMap(attachments[i], baseName);
                 }
             }
-            if(_usesRet && reticle > 0)
+            if (_usesRet && reticle > 0)
             {
                 reticle = 0;
             }
@@ -181,22 +181,22 @@ attachments[i] = AttachmentMap(attachments[i], baseName);
             bool _hasScope = false;
             if (GetWeaponClass(baseName) == "weapon_sniper")
             {
-                for(int i=0; i<attachments.Length;i++)
+                for (int i = 0; i < attachments.Length; i++)
                 {
-if (GetAttachmentType(attachments[i]) == "rail" && attachments[i] == "zoomscope")
-{
-    _hasScope = true;
-}
+                    if (GetAttachmentType(attachments[i]) == "rail" && attachments[i] == "zoomscope")
+                    {
+                        _hasScope = true;
+                    }
                 }
-                if(!_hasScope)
-attachments[attachments.Length + 1] = bareWeaponName + "scope";
+                if (!_hasScope)
+                    attachments[attachments.Length + 1] = bareWeaponName + "scope";
             }
 
-            for(int i=0; i<attachments.Length; i++)
+            for (int i = 0; i < attachments.Length; i++)
             {
                 if (attachments[i] == "vzscope")
                 {
-attachments[i] = bareWeaponName + "scopevz";
+                    attachments[i] = bareWeaponName + "scopevz";
                 }
             }
 
@@ -206,7 +206,7 @@ attachments[i] = bareWeaponName + "scopevz";
             {
                 if (string.IsNullOrEmpty(attachment))
                 {
-continue;
+                    continue;
                 }
 
                 weaponName += "_" + attachment;
@@ -218,7 +218,7 @@ continue;
             {
                 if (weaponClass != "weapon_pistol" && weaponClass != "weapon_machine_pistol" && weaponClass != "weapon_projectile")
                 {
-weaponName = BuildWeaponNameCamo(weaponName, camo);
+                    weaponName = BuildWeaponNameCamo(weaponName, camo);
                 }
 
                 weaponName = BuildWeaponNameReticle(weaponName, reticle);
@@ -229,7 +229,7 @@ weaponName = BuildWeaponNameCamo(weaponName, camo);
             {
                 if (weaponClass != "weapon_pistol" && weaponClass != "weapon_machine_pistol" && weaponClass != "weapon_projectile")
                 {
-weaponName = BuildWeaponNameCamo(weaponName, camo);
+                    weaponName = BuildWeaponNameCamo(weaponName, camo);
                 }
 
                 weaponName = BuildWeaponNameReticle(weaponName, reticle);
@@ -321,32 +321,32 @@ weaponName = BuildWeaponNameCamo(weaponName, camo);
             switch (weaponClass)
             {
                 case "weapon_smg":
-if (attachmentName == "reflex")
-    return "reflexsmg";
-else if (attachmentName == "eotech")
-    return "eotechsmg";
-else if (attachmentName == "acog")
-    return "acogsmg";
-else if (attachmentName == "thermal")
-    return "thermalsmg";
+                    if (attachmentName == "reflex")
+                        return "reflexsmg";
+                    else if (attachmentName == "eotech")
+                        return "eotechsmg";
+                    else if (attachmentName == "acog")
+                        return "acogsmg";
+                    else if (attachmentName == "thermal")
+                        return "thermalsmg";
 
-return attachmentName;
+                    return attachmentName;
                 case "weapon_lmg":
-if (attachmentName == "reflex")
-    return "reflexlmg";
-else if (attachmentName == "eotech")
-    return "eotechlmg";
+                    if (attachmentName == "reflex")
+                        return "reflexlmg";
+                    else if (attachmentName == "eotech")
+                        return "eotechlmg";
 
-return attachmentName;
+                    return attachmentName;
                 case "weapon_machine_pistol":
-if (attachmentName == "reflex")
-    return "reflexsmg";
-else if (attachmentName == "eotech")
-    return "eotechsmg";
+                    if (attachmentName == "reflex")
+                        return "reflexsmg";
+                    else if (attachmentName == "eotech")
+                        return "eotechsmg";
 
-return attachmentName;
+                    return attachmentName;
                 default:
-return attachmentName;
+                    return attachmentName;
             }
         }
 
@@ -357,7 +357,7 @@ return attachmentName;
             {
                 if (GetWeaponClass(basename) != "weapon_machine_pistol" && GetWeaponClass(basename) != "weapon_pistol")
                 {
-return false;
+                    return false;
                 }
             }
             if (GetAttachmentType(attach) == "rail" && GetWeaponClass(basename) == "weapon_sniper")
@@ -482,7 +482,7 @@ return false;
             "iw5_ksg"
         };
 
-        
+
         public static string[] _lmgList = new[]
         {
             "iw5_m60",
