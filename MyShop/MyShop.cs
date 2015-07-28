@@ -570,6 +570,7 @@ namespace MyShop
             OnInterval(50000, () =>
             {
                 //motd.SetText("^3Server Is Created By ^5A^3h^5m^3a^5d^3009 ^0& ^2E^;m^2i^;n^2e^;M                                                       ^7More information: www.PlusMaster.Net");
+                MyStats.HighestkillsReader();
                 motd.SetText("^6Most Kills = ^5" + MyStats.playername + "^3 = ^1" + MyStats.max + "   ^5" + MyStats.playername1 + "^3 = ^1" + MyStats.max1 + "   ^5" + MyStats.playername2 + "^3 = ^1" + MyStats.max2);
                 motd.SetPoint("CENTER", "BOTTOM", 1100, -10);
                 motd.Call("moveovertime", 25);
