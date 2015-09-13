@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1531,6 +1531,12 @@ namespace MyShop
                     }
                 }
             }
+			else if(player.GetField<string>("customname") != "null")
+			{
+				string customname = player.GetField<string>("customname");
+                Utilities.RawSayAll(customname + ": ^3" + message);
+                return BaseScript.EventEat.EatGame;
+			}
 
             return EventEat.EatNone;
         }
