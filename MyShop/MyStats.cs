@@ -132,7 +132,8 @@ namespace MyShop
             {
                 string[] strArrays = File.ReadAllLines("scripts\\MyShop\\Kills\\Kills.txt");
                 int oldKills = KillsReader(player);
-                int newKill = oldKills + 1;
+                int currentkills = player.GetField<int>("kills");
+                int newKill = oldKills + currentkills;
 
                 string str5 = File.ReadAllText("scripts\\MyShop\\Kills\\Kills.txt");
                 str5 = str5.Replace(string.Concat(player.Name + " , ID: " + player.UserID + " , Kills=" + oldKills), string.Concat(player.Name + " , ID: " + player.UserID + " , Kills=" + newKill));

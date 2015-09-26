@@ -99,16 +99,22 @@ namespace MyShop
                 }
             });
 
-            /*OnInterval(60000, () =>
-            {
-                MyStats.AllPointsWriter();
-                return true;
-            });*/
-
             PlayerConnected += new Action<Entity>(ent =>
             {
                 MyStats.PlayerPointsReader(ent);
 
+                //just for test
+                //ent.Call("notifyonplayercommand", new Parameter[] { "3", "+actionslot 3" });
+                //ent.OnNotify("3", (Entity ent1) => { giveKillstreakWeapon(ent1, "predator_missile"); });
+
+                ent.OnNotify("weapon_change", (Entity ent1, Parameter newWeap) =>
+                {
+                    if (this.mayDropWeapon((string)newWeap))
+                    {
+                        ent.SetField("lastDroppableWeapon", (string)newWeap);
+                    }
+                    this.KillstreakUseWaiter(ent, (string)newWeap);
+                });
                 /*HudElem hud = HudElem.CreateFontString(ent, "default", 2f);
                 Parameter[] parameterArray = new Parameter[] { 200, 8000, 1000 };
                 hud.Call("setpulsefx", parameterArray);
@@ -484,14 +490,14 @@ namespace MyShop
             hud0.SetText("^3Point:");
 
             zmhud1.SetText("^3!Sui ^1= ^5Suicide          ^:(free)\n^3!hp ^1= ^5Double Health    ^:(1500)\n^3!esp ^1= ^5More Speed       ^:(500)\n^3!ttk ^1= ^5Teleporter tk    ^:(2000)\n^3!la  ^1= ^5Stinger          ^:(500)");
-            zmhud2.SetText("^3!sx  ^1= ^5Semtex          ^:(6000)\n^3!wh  ^1= ^5Wallhack         ^:(500)\n^3!fg  ^1= ^5Flashbang        ^:(600)\n^3!sm  ^1= ^5Smoke            ^:(400)\n^3!cl  ^1= ^5Claymore        ^:(300)");
+            zmhud2.SetText("^3!sx  ^1= ^5Semtex          ^:(6000)\n^3!wh  ^1= ^5Wallhack         ^:(500)\n^3!fg  ^1= ^5Flashbang        ^:(600)\n^3!sm  ^1= ^5Smoke            ^:(400)\n^3!cl  ^1= ^5Claymore        ^:(300)\n^3!pms  ^1= ^5Predator Missile   ^:(10000)");
             zmhud3.SetText("^6Other:\n^5!gp  ^1= ^5give point   ^:!gp ^1[^3Part Of Player Name^1]\n^5!re  ^1= ^5Restart Map      ^:(50000)\n^5!report ^1[^3Message or Bug^1] ^1= ^5Report Message or Bug :D");
 
             hmhud1.SetText("^3!1    ^1= ^5Random Pistol               ^:(150)\n^3!2    ^1= ^5Random Auto Pistol          ^:(200)\n^3!3    ^1= ^5Random SMG                  ^:(250)\n^3!4    ^1= ^5Random Assault              ^:(600)");
             hmhud2.SetText("^3!5    ^1= ^5Random Shotgun              ^:(600)\n^3!6    ^1= ^5Random Snipe                ^:(750)\n^3!7    ^1= ^5Random Light                ^:(850)\n^3!8    ^1= ^5Random Launcher             ^:(400)");
             hmhud3.SetText("^3!9    ^1= ^5Random Weapon               ^:(500)\n^3!aug  ^1= ^5aug weapon                  ^:(2500)\n^3!go   ^1= ^5Gold ACR + Unlimited Ammo   ^:(7000)\n^3!sui  ^1= ^5Suicide                     ^:(Free)");
             hmhud4.SetText("^3!hp   ^1= ^5Double Health               ^:(1000)\n^3!Hide ^1= ^5Invisable For 60 second     ^:(5000)\n^3!ri   ^1= ^5Riot Shield                 ^:(500)\n^3!up   ^1= ^5upgrade weapon               ^:(1000)");
-            hmhud5.SetText("^3!am   ^1= ^5Max ammo                    ^:(150)\n^3!jff  ^1= ^5Just For Fun                 ^:(4000)\n^3!atk   ^1= ^5Anti Trowing Knife     ^:(2000)");
+            hmhud5.SetText("^3!am   ^1= ^5Max ammo                    ^:(150)\n^3!jff  ^1= ^5Just For Fun                 ^:(4000)\n^3!atk   ^1= ^5Anti Trowing Knife     ^:(2000)\n^3!pms  ^1= ^5Predator Missile   ^:(10000)");
             hmhud6.SetText("^6Other:\n^5!gp  ^1= ^5give point   ^:!gp ^1[^3Part Of Player Name^1]\n^5!gg  ^1= ^5give Gun   ^:!gg ^1[^3Part Of Player Name^1]\n^5!re  ^1= ^5Restart Map      ^:(50000)\n^3MyShop By Ahmad009,^5Updated By EmineM");
 
             player.OnNotify("ShowShop", (entity) =>
@@ -842,6 +848,12 @@ namespace MyShop
                             }
                             return EventEat.EatGame;
                         }
+                        else if (strArrays[0].ToLower() == "test")
+                        {
+                            player.Call("notifyonplayercommand", new Parameter[] { "3", "+actionslot 3" });
+                            player.OnNotify("3", (Entity ent) => { this.giveKillstreakWeapon(ent, "predator_missile"); });
+                            return EventEat.EatGame;
+                        }
                     }
                 }
                 
@@ -855,6 +867,49 @@ namespace MyShop
                 {
                     switch (cmd)
                     {
+                        case "pms":
+                            {
+                                if (1000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -1000);
+                                    MyStats.AllPointsWriter();
+
+                                    player.Call("iprintlnbold", "^1You bought : ^5Predator Missile!");
+                                    AfterDelay(400, () =>
+                                    {
+                                        giveKillstreakWeapon(player, "predator_missile");
+                                    });
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+
+                                return EventEat.EatGame;
+                            }
+                        case "re":
+                            {
+                                if (50000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -50000);
+                                    MyStats.AllPointsWriter();
+
+                                    player.Call("iprintlnbold", "^1You bought : ^5Restart Map!");
+                                    ServerSay("^2" + player.Name + " ^1Bought Restart Map.");
+                                    AfterDelay(4000, () =>
+                                    {
+                                        Utilities.ExecuteCommand("fast_restart");
+                                    });
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+
+                                return EventEat.EatGame;
+                            }
                         case "sui":
                             {
                                 player.AfterDelay(200, entity =>
@@ -1283,6 +1338,27 @@ namespace MyShop
                 {
                     switch (cmd)
                     {
+                        case "pms":
+                            {
+                                if (10000 <= points)
+                                {
+                                    MyStats.PointAdd(player, -10000);
+                                    MyStats.AllPointsWriter();
+
+                                    player.Call("iprintlnbold", "^1You bought : ^5Predator Missile!");
+                                    AfterDelay(400, () =>
+                                    {
+                                        giveKillstreakWeapon(player, "predator_missile");
+                                    });
+                                    ShopFX(player);
+                                }
+                                else
+                                {
+                                    player.Call("iprintlnbold", "^1You Don't Have Enough Points!");
+                                }
+
+                                return EventEat.EatGame;
+                            }
                         case "hp":
                             {
                                 price = 2500;
@@ -1529,6 +1605,8 @@ namespace MyShop
                                 return EventEat.EatGame;
                             }
                     }
+
+                    return EventEat.EatGame;
                 }
             }
 			else if(player.GetField<string>("customname") != "null")
@@ -1913,6 +1991,464 @@ namespace MyShop
         {
             ((BaseScript)this).Call("playfx", (Parameter)((BaseScript)this).Call<int>("loadfx", new Parameter[1] { (Parameter)"props/cash_player_drop" }), (Parameter)player.Call<Vector3>("gettagorigin", new Parameter[1] { (Parameter)"j_spine4" }));//explosions
             player.Call("playsound", new Parameter[1] { (Parameter)"mp_killconfirm_tags_pickup" });
+        }
+
+        private int getKillstreakIndex(string streakName)
+        {
+            Parameter[] parameterArray = new Parameter[] { "mp/killstreakTable.csv", 1, streakName };
+            return base.Call<int>("tableLookupRowNum", parameterArray) - 1;
+        }
+
+        private string getKillstreakWeapon(string streakName)
+        {
+            string text = string.Empty;
+            Parameter[] parameters = new Parameter[]{"mp/killstreakTable.csv",1,streakName,12};
+
+            text = base.Call<string>("tableLookup", parameters);
+            Log.Write(LogLevel.Info, "Killstreak weapon: " + text);
+            return text;
+        }
+
+        private bool mayDropWeapon(string weapon)
+        {
+            bool flag;
+            if (weapon == "none")
+            {
+                flag = false;
+            }
+            else if (!weapon.Contains("ac130"))
+            {
+                Parameter[] parameterArray = new Parameter[] { weapon };
+                flag = (!(base.Call<string>("WeaponInventoryType", parameterArray) != "primary") ? true : false);
+            }
+            else
+            {
+                flag = false;
+            }
+            return flag;
+        }
+
+        private static void SetUsingRemote(Entity ent, string remote = "")
+        {
+            ent.Call("DisableOffhandWeapons", new Parameter[0]);
+            ent.Notify("using_remote", new Parameter[0]);
+        }
+
+        private void initRideKillstreak(Entity ent, string streakName = "")
+        {
+            bool flag1;
+            if (string.IsNullOrEmpty(streakName))
+            {
+                flag1 = true;
+            }
+            else
+            {
+                flag1 = (streakName == "osprey_gunner" || streakName == "remote_uav" ? false : !(streakName == "remote_tank"));
+            }
+            if (flag1)
+            {
+                ent.SetField("laptopWait", "get");
+                int num = 0;
+                ent.OnInterval(100, (Entity entity) =>
+                {
+                    bool flag;
+                    num++;
+                    if (entity == null)
+                    {
+                        flag = false;
+                    }
+                    else if ((num > 10 ? true : entity.GetField<string>("laptopWait") != "get"))
+                    {
+                        if (entity.GetField<string>("customStreak") == streakName)
+                        {
+                            Parameter[] parameterArray = new Parameter[] { "killstreaksState", "hasStreak", 0, false };
+                            entity.Call("SetPlayerData", parameterArray);
+                            parameterArray = new Parameter[] { "killstreaksState", "icons", 0, 0 };
+                            entity.Call("SetPlayerData", parameterArray);
+                            entity.SetField("customStreak", string.Empty);
+                        }
+                        this.initRideKillstreak2(entity);
+                        flag = false;
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
+                    return flag;
+                });
+            }
+            else
+            {
+                ent.SetField("laptopWait", "timeout");
+                this.initRideKillstreak2(ent);
+            }
+        }
+
+        public static bool isAirdropMarker(string weaponName)
+        {
+            bool flag;
+            string str = weaponName;
+            string str1 = str;
+            if (str == null)
+            {
+                flag = true;
+            }
+            else
+            {
+                flag = (str1 == "airdrop_marker_mp" || str1 == "airdrop_mega_marker_mp" || str1 == "airdrop_sentry_marker_mp" || str1 == "airdrop_juggernaut_mp" ? false : !(str1 == "airdrop_juggernaut_def_mp"));
+            }
+            return (flag ? false : true);
+        }
+
+        private bool isKillstreakWeapon(string wep)
+        {
+            bool flag;
+            if (!string.IsNullOrEmpty(wep))
+            {
+                wep = wep.ToLower();
+                if (!(wep == "none"))
+                {
+                    string[] strArrays = wep.Split(new char[] { '\u005F' });
+                    bool flag1 = false;
+                    if ((wep == "destructible_car" ? false : wep != "barrel_mp"))
+                    {
+                        string[] strArrays1 = strArrays;
+                        int num = 0;
+                        while (num < (int)strArrays1.Length)
+                        {
+                            if (!(strArrays1[num] != "mp"))
+                            {
+                                flag1 = true;
+                                break;
+                            }
+                            else
+                            {
+                                num++;
+                            }
+                        }
+                        if (!flag1)
+                        {
+                            wep = string.Concat(wep, "_mp");
+                        }
+                    }
+                    if (wep.Contains("destructible"))
+                    {
+                        flag = false;
+                    }
+                    else if (wep.Contains("killstreak"))
+                    {
+                        flag = true;
+                    }
+                    else if (!isAirdropMarker(wep))
+                    {
+                        if ((wep == "destructible_car" ? false : wep != "barrel_mp"))
+                        {
+                            Parameter[] parameterArray = new Parameter[] { wep };
+                            if (!string.IsNullOrEmpty(base.Call<string>("weaponInventoryType", parameterArray)))
+                            {
+                                parameterArray = new Parameter[] { wep };
+                                if (base.Call<string>("weaponInventoryType", parameterArray) == "exclusive")
+                                {
+                                    flag = true;
+                                    return flag;
+                                }
+                            }
+                        }
+                        flag = (!wep.Contains("remote") ? false : true);
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+            else
+            {
+                flag = false;
+            }
+            return flag;
+        }
+
+        private void ClearUsingRemote(Entity ent)
+        {
+            Parameter[] field;
+            ent.Call("enableOffhandWeapons", new Parameter[0]);
+            string currentWeapon = ent.CurrentWeapon;
+            if ((currentWeapon == "none" ? true : this.isKillstreakWeapon(currentWeapon)))
+            {
+                ent.TakeWeapon(currentWeapon);
+                field = new Parameter[] { ent.GetField<string>("lastDroppableWeapon") };
+                ent.Call("SwitchToWeapon", field);
+            }
+            field = new Parameter[] { false };
+            ent.Call("freezeControls", field);
+            ent.Notify("stopped_using_remote", new Parameter[0]);
+        }
+
+        private static void clearRideIntro(Entity ent, float delay = 0f)
+        {
+            if ((double)delay >= 0.1)
+            {
+                ent.AfterDelay(Convert.ToInt32(delay * 1000f), (Entity entity) => entity.Call("VisionSetNakedForPlayer", new Parameter[] { string.Empty, 0 }));
+            }
+            else
+            {
+                Parameter[] empty = new Parameter[] { string.Empty, 0 };
+                ent.Call("VisionSetNakedForPlayer", empty);
+            }
+        }
+
+        private List<Entity> RidingPred = new List<Entity>();
+
+        private static void setThirdPersonDOF(Entity ent, bool Enabled)
+        {
+            Parameter[] parameterArray;
+            if (!Enabled)
+            {
+                parameterArray = new Parameter[] { 0f, 0f, 512f, 512f, 4f, 0f };
+                ent.Call("setDepthOfField", parameterArray);
+            }
+            else
+            {
+                parameterArray = new Parameter[] { 0f, 110f, 512f, 4096f, 6f, 1.8f };
+                ent.Call("setDepthOfField", parameterArray);
+            }
+        }
+
+        private string GetThermalVision()
+        {
+            string str;
+            Parameter[] parameterArray = new Parameter[] { "thermal" };
+            str = (!(base.Call<string>("getMapCustom", parameterArray) == "invert") ? "thermal_mp" : "thermal_snowlevel_mp");
+            return str;
+        }
+
+        private static void staticEffect(Entity ent, float duration)
+        {
+            HudElem hudElem = HudElem.NewClientHudElem(ent);
+            hudElem.HorzAlign = "fullscreen";
+            hudElem.VertAlign = "fullscreen";
+            hudElem.SetShader("white", 640, 480);
+            hudElem.Archived = true;
+            hudElem.Sort = 10;
+            HudElem hudElem1 = HudElem.NewClientHudElem(ent);
+            hudElem1.HorzAlign = "fullscreen";
+            hudElem1.VertAlign = "fullscreen";
+            hudElem1.SetShader("ac130_overlay_grain", 640, 480);
+            hudElem1.Archived = true;
+            hudElem1.Sort = 20;
+            ent.AfterDelay(Convert.ToInt32(duration * 1000f), delegate(Entity entity)
+            {
+                hudElem.Call("destroy", new Parameter[0]);
+                hudElem1.Call("destroy", new Parameter[0]);
+            });
+        }
+
+        private void MissileEyes(Entity player, Entity rocket)
+        {
+            Entity entity1 = player;
+            Parameter[] thermalVision = new Parameter[] { "black_bw", 0f };
+            entity1.Call("VisionSetMissilecamForPlayer", thermalVision);
+            if (rocket == null)
+            {
+                this.ClearUsingRemote(player);
+            }
+            this.RidingPred.Add(player);
+            Entity entity2 = player;
+            thermalVision = new Parameter[] { this.GetThermalVision(), 1f };
+            entity2.Call("VisionSetMissilecamForPlayer", thermalVision);
+            player.AfterDelay(150, (Entity ent) => ent.Call("ThermalVisionFOFOverlayOn", new Parameter[0]));
+            Entity entity3 = player;
+            thermalVision = new Parameter[] { rocket, "tag_origin" };
+            entity3.Call("CameraLinkTo", thermalVision);
+            Entity entity4 = player;
+            thermalVision = new Parameter[] { rocket };
+            entity4.Call("ControlsLinkTo", thermalVision);
+            thermalVision = new Parameter[] { "camera_thirdPerson" };
+            if (base.Call<int>("getdvarint", thermalVision) == 1)
+            {
+                setThirdPersonDOF(player, false);
+            }
+            rocket.OnNotify("death", (Entity _rocket) =>
+            {
+                if (this.RidingPred.Contains(player))
+                {
+                    this.RidingPred.Remove(player);
+                }
+                player.Call("ControlsUnlink", new Parameter[0]);
+                player.Call("freezeControls", new Parameter[] { true });
+                /*if (!this.GameEnded)
+                {
+                    staticEffect(player, 0.5f);
+                }*/
+                base.AfterDelay(0x1f4, () =>
+                {
+                    player.Call("ThermalVisionFOFOverlayOff", new Parameter[0]);
+                    player.Call("CameraUnlink", new Parameter[0]);
+                    //BroBoss u003cu003e4_this = this;
+                    Parameter[] field = new Parameter[] { "camera_thirdPerson" };
+                    /*if (u003cu003e4_this.Call<int>("getdvarint", field) == 1)
+                    {
+                        BroBoss.setThirdPersonDOF(player, true);
+                    }*/
+                    if (this.isKillstreakWeapon(player.CurrentWeapon))
+                    {
+                        player.TakeWeapon(player.CurrentWeapon);
+                        Entity entity = player;
+                        field = new Parameter[] { player.GetField<string>("lastDroppableWeapon") };
+                        entity.Call("SwitchToWeapon", field);
+                    }
+                    this.ClearUsingRemote(player);
+                });
+            });
+        }
+
+        private int missileRemoteLaunchVert = 14000;
+
+        private int missileRemoteLaunchHorz = 30000;
+
+        private int missileRemoteLaunchTargetDist = 1500;
+
+        private void FirePredator(Entity ent)
+        {
+            Parameter[] origin;
+            Entity entity = null;
+            Vector3 vector3 = Vector3.RandomXY();
+            Vector3 origin1 = Vector3.RandomXY();
+            if (entity != null)
+            {
+                origin1 = entity.GetField<Entity>("targetEnt").Origin;
+                origin = new Parameter[] { entity.Origin, origin1 };
+                Vector3 vector31 = base.Call<Vector3>("vectorNormalize", origin);
+                vector3 = (vector31 * (float)this.missileRemoteLaunchVert) + origin1;
+            }
+            else
+            {
+                origin = new Parameter[] { ent.GetField<Vector3>("angles") };
+                Vector3 vector32 = base.Call<Vector3>("AnglesToForward", origin);
+                vector3 = (ent.Origin + ((vector32 * -1f) * (float)this.missileRemoteLaunchHorz)) + new Vector3(0f, 0f, (float)this.missileRemoteLaunchVert);
+                origin1 = ent.Origin + (vector32 * (float)this.missileRemoteLaunchTargetDist);
+            }
+            origin = new Parameter[] { "remotemissile_projectile_mp", vector3, origin1, ent };
+            Entity entity1 = base.Call<Entity>("MagicBullet", origin);
+            if (entity1 != null)
+            {
+                origin = new Parameter[] { true };
+                entity1.Call("setCanDamage", origin);
+                this.MissileEyes(ent, entity1);
+            }
+            else
+            {
+                this.ClearUsingRemote(ent);
+            }
+        }
+
+        private void initRideKillstreak2(Entity entity)
+        {
+            bool flag1;
+            if (!(entity.GetField<string>("laptopWait") == "get"))
+            {
+                if (entity.GetField<string>("laptopWait") != "weapon_switch_started")
+                {
+                    goto Label1;
+                }
+                this.ClearUsingRemote(entity);
+                return;
+            }
+            else
+            {
+                entity.SetField("laptopWait", string.Empty);
+            }
+        Label1:
+            if (!entity.IsAlive)
+            {
+                flag1 = false;
+            }
+            else
+            {
+                flag1 = (entity.GetField<string>("laptopWait") != "death" ? true : !(entity.GetField<string>("sessionteam") == "spectator"));
+            }
+            if (flag1)
+            {
+                entity.Call("VisionSetNakedForPlayer", new Parameter[] { "black_bw", 0.75f });
+                int num = 0;
+                entity.SetField("laptopWait", "get");
+                entity.OnInterval(100, (Entity player) =>
+                {
+                    bool flag;
+                    num++;
+                    if (player == null)
+                    {
+                        flag = false;
+                    }
+                    else if ((num > 8 ? true : player.GetField<string>("laptopWait") != "get"))
+                    {
+                        clearRideIntro(player, 1f);
+                        if (!(player.GetField<string>("sessionteam") != "spectator"))
+                        {
+                            this.ClearUsingRemote(entity);
+                            flag = false;
+                        }
+                        else
+                        {
+                            this.FirePredator(player);
+                            flag = false;
+                        }
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
+                    return flag;
+                });
+            }
+            else
+            {
+                this.ClearUsingRemote(entity);
+            }
+        }
+
+        public void tryUsePredator(Entity ent)
+        {
+            SetUsingRemote(ent, "remotemissile");
+            this.initRideKillstreak(ent, "predator_missile");
+        }
+
+        private void KillstreakUseWaiter(Entity ent, string weapon)
+        {
+            if (weapon != "killstreak_predator_missile_mp")
+            {
+                Log.Write(LogLevel.Info, "KillstreakUseWaiter: " + weapon);
+            }
+            else
+            {
+                this.tryUsePredator(ent);
+                ent.Call("playLocalSound", new Parameter[]
+		{
+			"weap_c4detpack_trigger_plr"
+		});
+            }
+        }
+
+        private void giveKillstreakWeapon(Entity ent, string streakName)
+        {
+            string killstreakWeapon = this.getKillstreakWeapon(streakName);
+            if (!string.IsNullOrEmpty(killstreakWeapon))
+            {
+                ent.SetField("customStreak", streakName);
+                Parameter[] killstreakIndex = new Parameter[] { killstreakWeapon, 0, false };
+                ent.Call("giveWeapon", killstreakIndex);
+                killstreakIndex = new Parameter[] { 4, "weapon", killstreakWeapon };
+                ent.Call("setActionSlot", killstreakIndex);
+                killstreakIndex = new Parameter[] { "killstreaksState", "hasStreak", 0, true };
+                ent.Call("SetPlayerData", killstreakIndex);
+                killstreakIndex = new Parameter[] { "killstreaksState", "icons", 0, this.getKillstreakIndex("predator_missile") };
+                ent.Call("SetPlayerData", killstreakIndex);
+            }
         }
     }
 }
